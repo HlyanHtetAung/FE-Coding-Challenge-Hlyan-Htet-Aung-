@@ -36,8 +36,8 @@ function CurrencySelect({ prices, value, onChange }: Props) {
   };
 
   return (
-    <details ref={dropdownRef} className="dropdown w-70">
-      <summary className="select select-bordered flex items-center justify-between cursor-pointer list-none">
+    <details ref={dropdownRef} className="dropdown w-full">
+      <summary className="select select-bordered flex items-center justify-between cursor-pointer list-none w-full">
         <div className="flex items-center gap-2 overflow-hidden">
           {value && (
             <img

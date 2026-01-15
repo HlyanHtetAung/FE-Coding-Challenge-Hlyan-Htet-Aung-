@@ -24,7 +24,7 @@ function AmountField({
   return (
     <div className="flex flex-col items-start gap-2">
       <p className="text-sm font-bold">{title}</p>
-      <div className="flex gap-2">
+      <div className="flex gap-3 flex-col sm:flex-row w-full">
         <AmountInput
           value={amount}
           onChange={onAmountChange}
