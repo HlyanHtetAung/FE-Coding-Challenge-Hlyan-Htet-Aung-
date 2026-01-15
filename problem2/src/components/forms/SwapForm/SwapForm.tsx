@@ -1,9 +1,10 @@
 import { usePrices } from "../../hooks";
 import { useSwapLogic } from "../../hooks/useSwapLogic";
-import AmountField from "../../AmountField/AmountField";
+
 import { ConfirmSwapButton } from "../../Buttons";
 import { SwapIcon } from "../../icons";
 import { toast } from "sonner";
+import { AmountField } from "../../AmountField";
 
 function SwapForm() {
   const { data: prices, loading, error } = usePrices();

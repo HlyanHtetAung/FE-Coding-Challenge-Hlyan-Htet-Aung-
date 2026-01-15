@@ -1,6 +1,8 @@
 import "./App.css";
-import SwapForm from "./components/forms/SwapForm/SwapForm";
+
 import { Toaster } from "sonner";
+import { SwapForm } from "./components/forms/SwapForm";
+
 function App() {
   return (
     <>

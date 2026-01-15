@@ -1,7 +1,7 @@
 type Props = {
   value: number | string;
   onChange: (v: number | string) => void;
-  disabled?: boolean; // Add this optional prop
+  disabled?: boolean;
 };
 
 function AmountInput({ value, onChange, disabled }: Props) {
