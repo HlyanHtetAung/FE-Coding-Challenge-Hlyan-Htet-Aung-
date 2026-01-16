@@ -5,9 +5,11 @@ import { ConfirmSwapButton } from "../../Buttons";
 import { SwapIcon } from "../../icons";
 import { toast } from "sonner";
 import { AmountField } from "../../AmountField";
+import { useState } from "react";
 
 function SwapForm() {
   const { data: prices, loading, error } = usePrices();
+  const [isSwapping, setIsSwapping] = useState(false);
   const {
     fromToken,
     setFromToken,
@@ -22,8 +24,12 @@ function SwapForm() {
     calculateValue,
   } = useSwapLogic(prices);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    setIsSwapping(true);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     toast.success(`Swap successful!`, {
       description: `Swapped ${fromAmount} ${fromToken} for ${toAmount} ${toToken}`,
       position: "top-center",
@@ -31,6 +37,7 @@ function SwapForm() {
 
     setFromAmount("");
     setToAmount("");
+    setIsSwapping(false); // 6. Stop loading
   };
 
   if (loading)
@@ -41,7 +48,7 @@ function SwapForm() {
     return <div className="alert alert-error">Error loading prices</div>;
 
   return (
-    <div className="px-4 w-full flex justify-center py-10">
+    <div className="px-4 w-full flex justify-center">
       <div className="relative group rounded-[2.5rem] max-w-md w-full">
         <div className="absolute -inset-1 bg-linear-to-r from-cyan-500 via-purple-600 to-pink-500 rounded-[2.5rem] blur opacity-25" />
 
@@ -104,7 +111,10 @@ function SwapForm() {
             </div>
           )}
 
-          <ConfirmSwapButton disabled={!fromAmount || !fromToken || !toToken} />
+          <ConfirmSwapButton
+            disabled={!fromAmount || !fromToken || !toToken}
+            loading={isSwapping}
+          />
         </form>
       </div>
     </div>

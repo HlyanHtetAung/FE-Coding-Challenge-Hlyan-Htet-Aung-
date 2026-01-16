@@ -1,11 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
-export type Price = {
-  currency: string;
-  date: string;
-  price: number;
-};
+import type { Price } from "../../types";
 
 export function usePrices() {
   const [data, setData] = useState<Price[]>([]);
@@ -21,7 +16,19 @@ export function usePrices() {
 
       try {
         const response = await axios.get<Price[]>(pricesApiUrl);
-        setData(response.data);
+        const rawData = response.data;
+
+        // *** Sort by date newest to oldest ***
+        const sortedData = [...rawData].sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        );
+
+        // *** Filter for unique currencies ***
+        const cleanedData = sortedData.filter((item, index, self) => {
+          return self.findIndex((t) => t.currency === item.currency) === index;
+        });
+
+        setData(cleanedData);
       } catch (err: any) {
         setError(err.message || "Failed to fetch prices");
       } finally {
@@ -30,7 +37,7 @@ export function usePrices() {
     };
 
     fetchPrices();
-  }, []);
+  }, [pricesApiUrl]);
 
   return { data, loading, error };
 }

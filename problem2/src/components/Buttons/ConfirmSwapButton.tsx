@@ -1,18 +1,25 @@
 type Props = {
   loading?: boolean;
-  onClick?: () => void;
   disabled?: boolean;
 };
 
-function ConfirmSwapButton({ loading, onClick, disabled }: Props) {
+function ConfirmSwapButton({ loading, disabled }: Props) {
   return (
     <button
-      className="btn btn-accent w-full mt-5"
-      onClick={onClick}
-      disabled={disabled}
+      type="submit"
+      className={`btn btn-accent w-full mt-5 flex items-center justify-center gap-2 ${
+        loading ? "opacity-80 cursor-not-allowed" : ""
+      }`}
+      disabled={disabled || loading}
     >
-      {loading && <span className="loading loading-spinner"></span>}
-      {loading ? "Swapping..." : "Confirm Swap"}
+      {loading ? (
+        <>
+          <span className="loading loading-spinner loading-sm"></span>
+          <span>Swapping...</span>
+        </>
+      ) : (
+        "Confirm Swap"
+      )}
     </button>
   );
 }
