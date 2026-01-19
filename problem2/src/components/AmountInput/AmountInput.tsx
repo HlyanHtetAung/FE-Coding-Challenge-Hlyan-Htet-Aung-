@@ -11,7 +11,18 @@ function AmountInput({ value, onChange, disabled }: Props) {
       onChange("");
       return;
     }
-    onChange(Number(val));
+
+    const numVal = Number(val);
+    if (!Number.isNaN(numVal) && numVal >= 0) {
+      onChange(numVal);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Prevent minus sign, plus sign, and exponential 'e'
+    if (e.key === "-" || e.key === "+" || e.key === "e" || e.key === "E") {
+      e.preventDefault();
+    }
   };
 
   return (
@@ -19,9 +30,9 @@ function AmountInput({ value, onChange, disabled }: Props) {
       type="number"
       value={value ?? ""}
       onChange={handleChange}
+      onKeyDown={handleKeyDown}
       disabled={disabled}
       placeholder="0.00"
-      /* Added 'disabled:opacity-50' and 'disabled:cursor-not-allowed' for UI feedback */
       className="input w-full [appearance:textfield] 
                  [&::-webkit-outer-spin-button]:appearance-none 
                  [&::-webkit-inner-spin-button]:appearance-none
